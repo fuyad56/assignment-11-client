@@ -23,7 +23,7 @@ const Navbar = () => {
 
     return (
         <nav className="border-b-2 static">
-            <div className="flex justify-between items-center py-[30px] z-10 desktop:mx-[200px] laptop:mx-[120px] tablet:mx-[80px] phone:mx-[30px]">
+            <div className="flex justify-between items-center py-[30px] z-10 mx-[200px] desktop:mx-[180px] laptop:mx-[120px] tablet:mx-[80px] phone:mx-[30px]">
                 <div>
                     <Link
                         to={"/"}
