@@ -8,11 +8,11 @@ const Header = () => {
                 <div className='desktop:w-[600px] laptop:w-[400px]'>
                     <h3 className='desktop:text-5xl laptop:text-4xl tablet:text-3xl phone:text-2xl font-medium leading-[3.5rem] mb-2'>Welcome to</h3>
                     <h1 className='text-[#183D3D] desktop:text-5xl laptop:text-4xl tablet:text-3xl phone:text-2xl mb-6' style={{ fontFamily: "Croissant One" }}>TSC Electronics</h1>
-                    <p className='text-md font-medium mb-8 desktop:w-[450px]'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deserunt voluptate numquam iusto, quo dicta ipsam quaerat suscipit cupiditate error cumque laboriosam minima molestiae perferendis architecto aliquid perspiciatis unde optio maiores. Cupiditate nisi unde iusto similique. Facere rem quos ex autem et porro esse, dolorem perferendis. Nam, assumenda officia. Quo.</p>
+                    <p className='text-md font-medium mb-8 w-auto mr-4'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus deserunt voluptate numquam iusto, quo dicta ipsam quaerat suscipit cupiditate error cumque laboriosam minima molestiae perferendis architecto aliquid perspiciatis unde optio maiores. Cupiditate nisi unde iusto similique. Facere rem quos ex autem et porro esse, dolorem perferendis. Nam, assumenda officia. Quo.</p>
                     <button className='border-2 border-[#183D3D] text-lg font-semibold text-slate-800 py-1 px-4 rounded hover:rounded-full hover:bg-[#183D3D] hover:text-slate-200'>Buy Now</button>
                 </div>
                 <div className='tablet:mt-[-47px] desktop:m-0'>
-                    <img src={Fan} alt="" className='desktop:h-[600px] laptop:h-[400px] rounded' />
+                    <img src={Fan} alt="" className='desktop:h-[600px] laptop:h-[400px] rounded-3xl shadow-xl' />
                 </div>
             </div>
         </main>
