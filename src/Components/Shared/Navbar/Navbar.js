@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { UserContext } from "../../../App";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import firebaseConfig from '../../../firebase.config';
+
+firebase.initializeApp(firebaseConfig);
+
 
 const Navbar = () => {
+    // User log in info
+    const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+
     // Dynamic the navigation background color
     const location = useLocation();
     const pathname = location.pathname;
@@ -20,6 +30,11 @@ const Navbar = () => {
     const handleToggle = () => {
         setMenu(!menu);
     };
+
+    const handleSignOut = () => {
+        setLoggedInUser((loggedInUser.success = false));
+    }
+
 
     return (
         <nav className="border-b-2 static">
@@ -68,16 +83,23 @@ const Navbar = () => {
                             </Link>
                         </li>
                         <li
-                            className={`${activeLink === "/contact" ? "bg-[#183D3D] text-white" : ""
+                            className={`${activeLink === "/dashboard" ? "bg-[#183D3D] text-white" : ""
                                 } text-slate-700 py-1 px-4 rounded`}
                         >
-                            <Link to={"/contact"} onClick={handleLinkClick}>
-                                Contact
+                            <Link to={"/dashboard"} onClick={handleLinkClick}>
+                                Dashboard
                             </Link>
                         </li>
-                        <li className="border-2 border-[#183D3D] text-slate-700 py-1 px-4 rounded hover:rounded-full hover:bg-[#183D3D] hover:text-slate-200">
-                            <Link to={"/login"}>Login</Link>
-                        </li>
+                        {
+                            loggedInUser.success ?
+                                <li onClick={handleSignOut} className="cursor-pointer">
+                                    <img src={loggedInUser.photo} alt="" className="w-[50px] rounded-full border-[#183D3D] border-2 p-1" />
+                                </li> 
+                                :
+                                <li className="border-2 border-[#183D3D] text-slate-700 py-1 px-4 rounded hover:rounded-full hover:bg-[#183D3D] hover:text-slate-200">
+                                    <Link to={"/login"}>Login</Link>
+                                </li>
+                        }
                     </ul>
                 </div>
 
@@ -129,16 +151,20 @@ const Navbar = () => {
                                     </Link>
                                 </li>
                                 <li
-                                    className={`${activeLink === "/contact" ? "bg-[#183D3D] text-white" : ""
+                                    className={`${activeLink === "/dashboard" ? "bg-[#183D3D] text-white" : ""
                                         } text-slate-700 py-1 px-4 rounded my-4`}
                                 >
-                                    <Link to={"/contact"} onClick={handleLinkClick}>
-                                        Contact
+                                    <Link to={"/dashboard"} onClick={handleLinkClick}>
+                                        Dashboard
                                     </Link>
                                 </li>
-                                <li className="border-2 border-[#183D3D] text-slate-700 py-1 px-4 rounded hover:rounded-full hover:bg-[#183D3D] hover:text-slate-200">
-                                    <Link to={"/login"}>Login</Link>
-                                </li>
+                                {
+                                    loggedInUser.success ? <li onClick={handleSignOut} className="cursor-pointer">
+                                        <img src={loggedInUser.photo} alt="" className="w-[50px] rounded-full border-[#183D3D] border-2 p-1" />
+                                    </li> : <li className="border-2 border-[#183D3D] text-slate-700 py-1 px-4 rounded hover:rounded-full hover:bg-[#183D3D] hover:text-slate-200">
+                                        <Link to={"/login"}>Login</Link>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     )}
