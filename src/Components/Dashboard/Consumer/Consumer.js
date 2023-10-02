@@ -22,8 +22,6 @@ const Consumer = () => {
                 const response = await fetch('http://localhost:5000/getBookingData');
                 const data = await response.json();
                 setBookingData(data);
-                console.log('Booking Data:', data);
-                console.log('LoggedInUser Email:', loggedInUser.email);
             } catch (error) {
                 console.error('Error fetching booking data', error);
             }
