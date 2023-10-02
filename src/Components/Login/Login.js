@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Navbar from '../Shared/Navbar/Navbar';
 import Footer from '../Shared/Footer/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,12 +13,13 @@ firebase.initializeApp(firebaseConfig);
 const Login = () => {
     const [newAccount, setNewAccount] = useState(false);
 
-    const [, setLoggedInUser] = useContext(UserContext);
+    const [loggedInUser, setLoggedInUser] = useContext(UserContext);
 
     // User info
     const [user, setUser] = useState({
         isSignedIn: false,
         name: "",
+        role: "admin",
         email: "",
         photo: "",
         password: "",
@@ -26,6 +27,19 @@ const Login = () => {
         error: "",
     });
     setLoggedInUser(user);
+
+    useEffect(() => {
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+            .then(() => {
+                // Continue with your Firebase initialization code
+            })
+            .catch((error) => {
+                console.error('Error configuring persistence:', error);
+            });
+    }, []);
+
+
 
     const handleLogin = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -38,20 +52,32 @@ const Login = () => {
                     name: displayName,
                     email: email,
                     photo: photoURL,
-                    password: "",
                     success: true,
                     error: "",
                 };
                 setUser(isLogin);
 
+                // Store user-related data in localStorage
+                localStorage.setItem('userData', JSON.stringify(isLogin));
+
                 console.log(isLogin);
-            }).catch((error) => {
+            })
+            .catch((error) => {
                 const newUserInfo = { ...user };
                 newUserInfo.error = error.message;
                 newUserInfo.success = "";
                 setUser(newUserInfo);
             });
-    }
+    };
+
+
+    useEffect(() => {
+        const storedUserData = localStorage.getItem('userData');
+        if (storedUserData) {
+            const parsedUserData = JSON.parse(storedUserData);
+            setUser(parsedUserData);
+        }
+    }, []);
 
     // handle blur
     const handleBlur = (e) => {
@@ -76,7 +102,6 @@ const Login = () => {
         }
         console.log(isFieldValid)
     };
-
 
     // handle submit
     const handleSubmit = (e) => {
@@ -109,6 +134,11 @@ const Login = () => {
     return (
         <div>
             <Navbar />
+            <div className='text-2xl font-medium text-center mt-6'>
+                {
+                    !loggedInUser.error ? <p className='text-[#FF4545]'>{user.error}</p> : <p className='text-[#009444]'>User Login successful</p>
+                }
+            </div>
             <div className='flex justify-center items-center h-[80vh]'>
                 {
                     !newAccount ? (

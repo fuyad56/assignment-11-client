@@ -5,14 +5,10 @@ import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../../../App";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
-import firebaseConfig from '../../../firebase.config';
-
-firebase.initializeApp(firebaseConfig);
-
 
 const Navbar = () => {
     // User log in info
-    const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+    const [loggedInUser,] = useContext(UserContext);
 
     // Dynamic the navigation background color
     const location = useLocation();
@@ -24,16 +20,23 @@ const Navbar = () => {
         setActiveLink(link);
     };
 
-    // Conditionally show the menu button and the close button
     const [menu, setMenu] = useState(false);
 
     const handleToggle = () => {
         setMenu(!menu);
     };
 
-    const handleSignOut = () => {
-        setLoggedInUser((loggedInUser.success = false));
-    }
+    const handleLogout = () => {
+        localStorage.removeItem('userData');
+        firebase.auth().signOut()
+            .then(() => {
+                window.location.reload();
+            })
+            .catch((error) => {
+            });
+    };
+
+
 
 
     return (
@@ -92,9 +95,9 @@ const Navbar = () => {
                         </li>
                         {
                             loggedInUser.success ?
-                                <li onClick={handleSignOut} className="cursor-pointer">
+                                <li onClick={handleLogout} className="cursor-pointer">
                                     <img src={loggedInUser.photo} alt="" className="w-[50px] rounded-full border-[#183D3D] border-2 p-1" />
-                                </li> 
+                                </li>
                                 :
                                 <li className="border-2 border-[#183D3D] text-slate-700 py-1 px-4 rounded hover:rounded-full hover:bg-[#183D3D] hover:text-slate-200">
                                     <Link to={"/login"}>Login</Link>
@@ -159,7 +162,7 @@ const Navbar = () => {
                                     </Link>
                                 </li>
                                 {
-                                    loggedInUser.success ? <li onClick={handleSignOut} className="cursor-pointer">
+                                    loggedInUser.success ? <li onClick={handleLogout} className="cursor-pointer">
                                         <img src={loggedInUser.photo} alt="" className="w-[50px] rounded-full border-[#183D3D] border-2 p-1" />
                                     </li> : <li className="border-2 border-[#183D3D] text-slate-700 py-1 px-4 rounded hover:rounded-full hover:bg-[#183D3D] hover:text-slate-200">
                                         <Link to={"/login"}>Login</Link>

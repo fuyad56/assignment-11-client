@@ -7,7 +7,7 @@ const Dashboard = () => {
     return (
         <div>
             <Navbar />
-            <div className='h-[800px]'>
+            <div className='h-[800px] mb-[615px]'>
                 <div className='grid grid-cols-2 h-full'>
                     <Sidebar />
                 </div>

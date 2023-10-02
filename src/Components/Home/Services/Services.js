@@ -1,29 +1,18 @@
-import React from 'react';
-import { faRecycle, faUserGraduate, faWind } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState } from 'react';
 import Service from '../Service/Service';
 
-const servicesData = [
-    {
-        id: 1,
-        title: 'Recyclable plastics',
-        describe: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate possimus sed excepturi autem perferendis at?',
-        icon: faRecycle,
-    },
-    {
-        id: 2,
-        title: 'Certified for best value',
-        describe: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate possimus sed excepturi autem perferendis at?',
-        icon: faUserGraduate,
-    },
-    {
-        id: 3,
-        title: 'Cool you faster',
-        describe: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate possimus sed excepturi autem perferendis at?',
-        icon: faWind,
-    }
-]
-
 const Services = () => {
+    const [servicesData, setServicesData] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:5000/getServices')
+            .then((response) => response.json())
+            .then((data) => setServicesData(data))
+            .catch((error) => {
+                console.error('Error fetching services data', error);
+            });
+    }, []);
+
     return (
         <div className='desktop:mt-[100px] laptop:mt-[80px] phone:mt-[40px] tablet:mt-[70px] mx-[200px] desktop:mx-[180px] laptop:mx-[120px] tablet:mx-[80px] phone:mx-[30px] mb-10'>
             <div>
